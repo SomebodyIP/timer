@@ -1,0 +1,42 @@
+<script>
+function ZeroTimer() {
+    var targetDate = new Date(); // Получаем текущую дату и время
+    var endDate = new Date(); // Создаем объект даты для конечной даты
+    endDate.setDate(targetDate.getDate() + 10); // Устанавливаем конечную дату на 10 дней в будущем
+
+    // Рассчитываем разницу между текущей датой и конечной датой
+    var timeDiff = endDate - targetDate;
+
+    var zeroDays = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    var zeroHours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var zeroMinutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+    var zeroSeconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+    // Описываем строку со временем
+    var timeTitle = zeroDays + ' : ' + zeroHours + ' : ' + zeroMinutes + ' : ' + zeroSeconds;
+
+    // Выводим таймер в текстовом поле ZeroBlock
+    $('#timer .t415__days').text(zeroDays);
+    $('#timer .t415__hours').text(zeroHours);
+    $('#timer .t415__minutes').text(zeroMinutes);
+    $('#timer .t415__seconds').text(zeroSeconds);
+
+    // Если таймер достиг нуля, останавливаем его
+    if (zeroDays <= 0 && zeroHours <= 0 && zeroMinutes <= 0 && zeroSeconds <= 0) {
+        clearInterval(timeinterval);
+    }
+}
+
+// Получаем сохраненные данные из локального хранилища, если они есть
+var savedData = JSON.parse(localStorage.getItem('timerData'));
+if (savedData) {
+    $('#timer .t415__days').text(savedData.days);
+    $('#timer .t415__hours').text(savedData.hours);
+    $('#timer .t415__minutes').text(savedData.minutes);
+    $('#timer .t415__seconds').text(savedData.seconds);
+}
+
+// Запускаем таймер
+ZeroTimer();
+var timeinterval = setInterval(ZeroTimer, 1000);
+</script>
